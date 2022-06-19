@@ -13,6 +13,7 @@ using OpenDotaApi.Api.Players.Model.Matches;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DotaPlus.ViewModels;
@@ -52,21 +53,6 @@ public partial class PlayerGamesViewModel : ObservableObject, INavigationAware
         _dotaContants = dotaContants;
     }
 
-    async partial void OnSelectedMatchChanged(MatchModel value)
-    {
-        if (value.MatchId.HasValue == false || value.HasCachedData == true)
-        {
-            return;
-        }
-
-        IsLoading = true;
-
-        var match = await openDota.Matches.GetMatchAsync(value.MatchId.Value);
-        await UpdateMatchModel(match);
-
-        IsLoading = false;
-    }
-
     public void OnNavigatedFrom()
     {
     }
@@ -80,6 +66,31 @@ public partial class PlayerGamesViewModel : ObservableObject, INavigationAware
         IsLoading = true;
         Matches = (await openDota.Players.GetMatchesAsync(SteamId, Params)).Select(x => CreateMatchModel(x)).ToList();
         SelectedMatch = Matches.FirstOrDefault();
+    }
+
+    async partial void OnSelectedMatchChanged(MatchModel value)
+    {
+        if (value is null || value.MatchId.HasValue == false || value.HasCachedData == true)
+        {
+            return;
+        }
+
+        IsLoading = true;
+        await CreatePages(await openDota.Matches.GetMatchAsync(value.MatchId.Value));
+        IsLoading = false;
+    }
+
+    public async Task CreatePages(Match match)
+    {
+        await AddSummaryPage(match);
+        
+        if(SelectedMatch.IsMatchParsed)
+        {
+            AddGpmXpmPage(match);
+        }
+
+        SelectedMatch.HasCachedData = true;
+        SelectedMatch.NotifyModelChanged();
     }
 
     public MatchModel CreateMatchModel(Matches match)
@@ -98,16 +109,8 @@ public partial class PlayerGamesViewModel : ObservableObject, INavigationAware
                 Assists = match.Assists ?? 0,
                 Team = isPlayerRadiant ? Team.Radiant : Team.Dire,
                 Hero = _heroDetailsService.Heroes.SingleOrDefault(x => x.Id == match.HeroId),
-            }
+            },
         };
-    }
-
-    public async Task UpdateMatchModel(Match match)
-    {
-        await AddSummaryPage(match);
-        AddGpmXpmPage(match);
-        SelectedMatch.HasCachedData = true;
-        SelectedMatch.NotifyModelChanged();
     }
 
     public async Task<PlayerModel> CreatePlayer(MatchPlayer player)
@@ -144,7 +147,8 @@ public partial class PlayerGamesViewModel : ObservableObject, INavigationAware
             Denies = player.Denies ?? 0,
             Items = GetItems(player),
             Xpm = player.XpPerMin ?? 0,
-            Gpm = player.GoldPerMin ?? 0
+            Gpm = player.GoldPerMin ?? 0,
+            PartyId =  player.PartySize > 1 ? player.PartyId ?? 0 : -1,
         };
 
         if (playerModel.SteamId > 0)
@@ -197,17 +201,39 @@ public partial class PlayerGamesViewModel : ObservableObject, INavigationAware
 
         var radiantPlayers = match.Players.Where(x => x.PlayerSlot < 128);
         var direPlayers = match.Players.Where(x => x.PlayerSlot > 127);
+        var soloCount = match.Players.Where(x => x.PartySize == 1).Count();
         var summaryModel = new MatchSummaryModel
         {
             IsRadiantWin = match.RadiantWin ?? false
         };
+
+        var partyId = new Dictionary<int, int>();
+        var partyCounter = 1;
         foreach (var player in radiantPlayers)
         {
-            summaryModel.RadiantPlayers.Add(await CreatePlayer(player));
+            var playerModel = await CreatePlayer(player);
+            if(playerModel.PartyId != -1)
+            {
+                if(!partyId.ContainsKey(playerModel.PartyId))
+                {
+                    partyId.Add(playerModel.PartyId, partyCounter++);
+                }
+                playerModel.PartyId = partyId[playerModel.PartyId];
+            }
+            summaryModel.RadiantPlayers.Add(playerModel);
         }
         foreach (var player in direPlayers)
         {
-            summaryModel.DirePlayers.Add(await CreatePlayer(player));
+            var playerModel = await CreatePlayer(player);
+            if (playerModel.PartyId != 0)
+            {
+                if (!partyId.ContainsKey(playerModel.PartyId))
+                {
+                    partyId.Add(playerModel.PartyId, partyCounter++);
+                }
+                playerModel.PartyId = partyId[playerModel.PartyId];
+            }
+            summaryModel.DirePlayers.Add(playerModel);
         }
         summaryModel.RadiantScore = match.RadiantScore ?? 0;
         summaryModel.DireScore = match.DireScore ?? 0;
@@ -216,7 +242,6 @@ public partial class PlayerGamesViewModel : ObservableObject, INavigationAware
         {
             summaryModel.EndTime = dt + summaryModel.Duration;
         }
-
         SelectedMatch.Pages.Add(summaryModel);
     }
 
@@ -229,20 +254,14 @@ public partial class PlayerGamesViewModel : ObservableObject, INavigationAware
 
         var goldValues = new List<ObservablePoint>();
         var xpValues = new List<ObservablePoint>();
-        if (match.RadiantGoldAdvantage is { })
+        for (int i = 0; i < match.RadiantGoldAdvantage.Count; i++)
         {
-            for (int i = 0; i < match.RadiantGoldAdvantage.Count; i++)
-            {
-                goldValues.Add(new(i, match.RadiantGoldAdvantage[i]));
-            }
+            goldValues.Add(new(i, match.RadiantGoldAdvantage[i]));
         }
 
-        if (match.RadiantXpAdvantage is { })
+        for (int i = 0; i < match.RadiantXpAdvantage.Count; i++)
         {
-            for (int i = 0; i < match.RadiantXpAdvantage.Count; i++)
-            {
-                xpValues.Add(new(i, match.RadiantXpAdvantage[i]));
-            }
+            xpValues.Add(new(i, match.RadiantXpAdvantage[i]));
         }
 
         var chartsModel = new GpmXpChartsModel

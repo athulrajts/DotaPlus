@@ -93,12 +93,12 @@ public class DotaResources : IDotaConstants
     {
         await EnsureHeroes();
         await EnsureAbilities();
-        await EnsureHeroPortraits();
-        await EnsureAnimatedHeroPortraits();
-        await EnsureAbilityDemos();
-        await EnsureAbilityImages();
         await EnsureItems();
-        await EnsureItemImages();
+        //await EnsureHeroPortraits();
+        //await EnsureAnimatedHeroPortraits();
+        //await EnsureAbilityDemos();
+        //await EnsureAbilityImages();
+        //await EnsureItemImages();
 
         var current = JsonSerializer.Serialize(invalids);
         if(current != snapshot)

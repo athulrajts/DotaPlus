@@ -46,9 +46,14 @@ public class ItemModel
     [JsonPropertyName("charges")]
     public object Charges { get; set; }// will be false if no charges, otherwise will contain charges.
 
+    [JsonPropertyName("tier")]
+    public int? Tier { get; set; }
+
     [JsonIgnore]
     public string Name { get; set; }
 
+    [JsonIgnore]
+    public bool IsNeutralItem => Tier.HasValue;
 }
 
 public class ItemAttribute

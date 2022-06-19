@@ -26,6 +26,7 @@ public class PlayerModel
     public double Healing { get; set; }
     public double BuildingDamage { get; set; }
     public List<ItemModel> Items { get; set; }
+    public int PartyId { get; set; }
     public bool IsPublic => SteamId > 0;
 
     public string NetworthString => (Networth * 1.0).ToMetric(null, 1);

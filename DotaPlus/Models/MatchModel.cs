@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Humanizer;
 using LiveChartsCore;
-using LiveChartsCore.Defaults;
 using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
+using OpenDotaApi.Api.Matches.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,9 @@ public class MatchModel : ObservableObject
     public PlayerStats PlayerStats { get; set; }
     public List<IPivotTab> Pages { get; set; } = new();
     public IEnumerable<IPivotTab> VisiblePages => Pages.Where(x => x.IsVisible);
+    public bool IsMatchParsed { get; set; }
     public bool HasCachedData { get; set; }
+    public Match OpenDotaModel { get; set; }
     public void NotifyModelChanged() => OnPropertyChanged(string.Empty); 
 }
 

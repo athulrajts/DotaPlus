@@ -6,11 +6,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:m="using:DotaPlus.Models"
-    xmlns:help="using:DotaPlus.Helpers" xmlns:internal="using:DotaPlus.Core.Models.Internal"
+    xmlns:help="using:DotaPlus.Helpers" 
+    xmlns:internal="using:DotaPlus.Core.Models.Internal"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
     <UserControl.Resources>
         <x:Boolean x:Key="True">True</x:Boolean>
         <x:Boolean x:Key="False">False</x:Boolean>
+        <Visibility x:Key="Collapsed">Collapsed</Visibility>
+        <SolidColorBrush Color="Orange" x:Key="Orange"/>
+        <SolidColorBrush Color="Cyan" x:Key="Cyan"/>
+        <SolidColorBrush Color="Purple" x:Key="Purple"/>
+        <SolidColorBrush Color="Red" x:Key="Red"/>
     </UserControl.Resources>
 
     <Grid>
@@ -28,12 +36,53 @@
                 <controls:DataGridTemplateColumn Header="Hero">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="m:PlayerModel">
-                            <controls:ImageEx Source="{x:Bind help:DotaResourceHelper.GetHeroPortriat(HeroId)}"
-                                              Stretch="Uniform"
-                                              Height="86" Width="144"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border x:Name="PartyId" Width="5">
+                                    <i:Interaction.Behaviors>
+                                        <ic:DataTriggerBehavior Binding="{x:Bind PartyId}" Value="1">
+                                            <ic:ChangePropertyAction PropertyName="Background"
+                                                                     TargetObject="{Binding ElementName=PartyId}"
+                                                                     Value="{StaticResource Orange}"/>
+                                        </ic:DataTriggerBehavior>
+                                        <ic:DataTriggerBehavior Binding="{x:Bind PartyId}" Value="2">
+                                            <ic:ChangePropertyAction PropertyName="Background"
+                                                                     TargetObject="{Binding ElementName=PartyId}"
+                                                                     Value="{StaticResource Cyan}"/>
+                                        </ic:DataTriggerBehavior>
+                                        <ic:DataTriggerBehavior Binding="{x:Bind PartyId}" Value="3">
+                                            <ic:ChangePropertyAction PropertyName="Background"
+                                                                     TargetObject="{Binding ElementName=PartyId}"
+                                                                     Value="{StaticResource Purple}"/>
+                                        </ic:DataTriggerBehavior>
+                                        <ic:DataTriggerBehavior Binding="{x:Bind PartyId}" Value="4">
+                                            <ic:ChangePropertyAction PropertyName="Background"
+                                                                     TargetObject="{Binding ElementName=PartyId}"
+                                                                     Value="{StaticResource Red}"/>
+                                        </ic:DataTriggerBehavior>
+                                        <ic:DataTriggerBehavior Binding="{x:Bind PartyId}" Value="-1">
+                                            <ic:ChangePropertyAction PropertyName="Visibility"
+                                                                     TargetObject="{Binding ElementName=PartyId}"
+                                                                     Value="{StaticResource Collapsed}"/>
+                                        </ic:DataTriggerBehavior>
+                                    </i:Interaction.Behaviors>
+                                </Border>
+
+                                <controls:ImageEx Source="{x:Bind help:DotaResourceHelper.GetHeroPortriat(HeroId)}"
+                                                  Stretch="Uniform"
+                                                  Height="86" Width="144"
+                                                  Grid.Column="1"/>
+                            </Grid>
+
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
                 </controls:DataGridTemplateColumn>
+
+                <controls:DataGridTextColumn Binding="{Binding Level}" Header="Level"/>
 
                 <!--Steam Name + Avatar-->
                 <controls:DataGridTemplateColumn Header="Name" Width="*">
@@ -59,12 +108,13 @@
                                     </controls:Case>
                                 </controls:SwitchPresenter>
 
-                                <controls:ImageEx Source="{x:Bind Image}"
-                                                  HorizontalAlignment="Right"
-                                                  Stretch="Uniform"
-                                                  Height="50" Width="50"
-                                                  Margin="20 0"
-                                                  Grid.Column="1"/>
+                                <Border Height="50" Width="50"
+                                        Margin="20 0"
+                                        Grid.Column="1"
+                                        CornerRadius="25">
+                                    <controls:ImageEx Source="{x:Bind Image}"
+                                                      Stretch="Uniform"/>
+                                </Border>
                             </Grid>
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
