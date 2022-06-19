@@ -1,0 +1,134 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>DotaPlus.Core</RootNamespace>
+    <Platforms>x86;x64;arm64;AnyCPU</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\aghs_scepter.png" />
+    <None Remove="Images\aghs_shard.png" />
+    <None Remove="Images\cooldown.png" />
+    <None Remove="Images\hero_agility.png" />
+    <None Remove="Images\hero_intelligence.png" />
+    <None Remove="Images\hero_strength.png" />
+    <None Remove="Images\icon_armor.png" />
+    <None Remove="Images\icon_attack_range.png" />
+    <None Remove="Images\icon_attack_time.png" />
+    <None Remove="Images\icon_damage.png" />
+    <None Remove="Images\icon_magic_resist.png" />
+    <None Remove="Images\icon_movement_speed.png" />
+    <None Remove="Images\icon_projectile_speed.png" />
+    <None Remove="Images\icon_turn_rate.png" />
+    <None Remove="Images\icon_vision.png" />
+    <None Remove="Images\Ranks\SeasonalRank0-0.png" />
+    <None Remove="Images\Ranks\SeasonalRank1-1.png" />
+    <None Remove="Images\Ranks\SeasonalRank1-2.png" />
+    <None Remove="Images\Ranks\SeasonalRank1-3.png" />
+    <None Remove="Images\Ranks\SeasonalRank1-4.png" />
+    <None Remove="Images\Ranks\SeasonalRank1-5.png" />
+    <None Remove="Images\Ranks\SeasonalRank2-1.png" />
+    <None Remove="Images\Ranks\SeasonalRank2-2.png" />
+    <None Remove="Images\Ranks\SeasonalRank2-3.png" />
+    <None Remove="Images\Ranks\SeasonalRank2-4.png" />
+    <None Remove="Images\Ranks\SeasonalRank2-5.png" />
+    <None Remove="Images\Ranks\SeasonalRank3-1.png" />
+    <None Remove="Images\Ranks\SeasonalRank3-2.png" />
+    <None Remove="Images\Ranks\SeasonalRank3-3.png" />
+    <None Remove="Images\Ranks\SeasonalRank3-4.png" />
+    <None Remove="Images\Ranks\SeasonalRank3-5.png" />
+    <None Remove="Images\Ranks\SeasonalRank4-1.png" />
+    <None Remove="Images\Ranks\SeasonalRank4-2.png" />
+    <None Remove="Images\Ranks\SeasonalRank4-3.png" />
+    <None Remove="Images\Ranks\SeasonalRank4-4.png" />
+    <None Remove="Images\Ranks\SeasonalRank4-5.png" />
+    <None Remove="Images\Ranks\SeasonalRank5-1.png" />
+    <None Remove="Images\Ranks\SeasonalRank5-2.png" />
+    <None Remove="Images\Ranks\SeasonalRank5-3.png" />
+    <None Remove="Images\Ranks\SeasonalRank5-4.png" />
+    <None Remove="Images\Ranks\SeasonalRank5-5.png" />
+    <None Remove="Images\Ranks\SeasonalRank6-1.png" />
+    <None Remove="Images\Ranks\SeasonalRank6-2.png" />
+    <None Remove="Images\Ranks\SeasonalRank6-3.png" />
+    <None Remove="Images\Ranks\SeasonalRank6-4.png" />
+    <None Remove="Images\Ranks\SeasonalRank6-5.png" />
+    <None Remove="Images\Ranks\SeasonalRank7-1.png" />
+    <None Remove="Images\Ranks\SeasonalRank7-2.png" />
+    <None Remove="Images\Ranks\SeasonalRank7-3.png" />
+    <None Remove="Images\Ranks\SeasonalRank7-4.png" />
+    <None Remove="Images\Ranks\SeasonalRank7-5.png" />
+    <None Remove="Images\Ranks\SeasonalRankTop0.png" />
+    <None Remove="Images\Ranks\SeasonalRankTop1.png" />
+    <None Remove="Images\Ranks\SeasonalRankTop2.png" />
+    <None Remove="Images\Ranks\SeasonalRankTop3.png" />
+    <None Remove="Images\Ranks\SeasonalRankTop4.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\aghs_scepter.png" />
+    <EmbeddedResource Include="Images\aghs_shard.png" />
+    <EmbeddedResource Include="Images\cooldown.png" />
+    <EmbeddedResource Include="Images\hero_agility.png" />
+    <EmbeddedResource Include="Images\hero_intelligence.png" />
+    <EmbeddedResource Include="Images\hero_strength.png" />
+    <EmbeddedResource Include="Images\icon_armor.png" />
+    <EmbeddedResource Include="Images\icon_attack_range.png" />
+    <EmbeddedResource Include="Images\icon_attack_time.png" />
+    <EmbeddedResource Include="Images\icon_damage.png" />
+    <EmbeddedResource Include="Images\icon_magic_resist.png" />
+    <EmbeddedResource Include="Images\icon_movement_speed.png" />
+    <EmbeddedResource Include="Images\icon_projectile_speed.png" />
+    <EmbeddedResource Include="Images\icon_turn_rate.png" />
+    <EmbeddedResource Include="Images\icon_vision.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank0-0.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank1-1.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank1-2.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank1-3.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank1-4.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank1-5.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank2-1.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank2-2.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank2-3.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank2-4.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank2-5.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank3-1.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank3-2.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank3-3.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank3-4.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank3-5.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank4-1.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank4-2.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank4-3.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank4-4.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank4-5.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank5-1.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank5-2.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank5-3.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank5-4.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank5-5.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank6-1.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank6-2.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank6-3.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank6-4.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank6-5.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank7-1.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank7-2.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank7-3.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank7-4.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRank7-5.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRankTop0.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRankTop1.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRankTop2.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRankTop3.png" />
+    <EmbeddedResource Include="Images\Ranks\SeasonalRankTop4.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenDotaApi" Version="1.3.1" />
+  </ItemGroup>
+</Project>

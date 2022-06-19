@@ -1,0 +1,83 @@
+﻿<Page
+    x:Class="DotaPlus.Views.HeroesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:corModels="using:DotaPlus.Core.Models"
+    xmlns:help="using:DotaPlus.Helpers"
+    mc:Ignorable="d"
+    Style="{StaticResource PageStyle}"
+    x:Name="ThisPage">
+    <Page.Resources>
+        <Style TargetType="ToggleButton" x:Key="AttributeFilter">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="IsEnabled" Value="{x:Bind ViewModel.IsAttributeSelectionEnabled, Mode=OneWay}"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" Margin="{StaticResource MediumTopBottomMargin}">
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Padding="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Padding="10">
+                        <TextBlock Text="ATTRIBUTE" FontSize="25" VerticalAlignment="Center"
+                                   Margin="{StaticResource MediumLeftRightMargin}"/>
+                        <ToggleButton IsChecked="{x:Bind ViewModel.FilterByStr, Mode=TwoWay}" Style="{StaticResource AttributeFilter}">
+                            <controls:ImageEx Source="{x:Bind help:ResourceExtensions.StrengthAttribute}"/>
+                        </ToggleButton>
+                        <ToggleButton IsChecked="{x:Bind ViewModel.FilterByAgi, Mode=TwoWay}" Style="{StaticResource AttributeFilter}">
+                            <controls:ImageEx Source="{x:Bind help:ResourceExtensions.AgilityAttribute}"/>
+                        </ToggleButton>
+                        <ToggleButton IsChecked="{x:Bind ViewModel.FilterByInt, Mode=TwoWay}" Style="{StaticResource AttributeFilter}">
+                            <controls:ImageEx Source="{x:Bind help:ResourceExtensions.IntelligenceAttribute}"/>
+                        </ToggleButton>
+                    </StackPanel>
+                    <AutoSuggestBox QueryIcon="Find" 
+                                    Text="{x:Bind ViewModel.SearchText, Mode=TwoWay}"
+                                    Grid.Column="1"
+                                    Width="400"
+                                    VerticalContentAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Height="50"
+                                    FontSize="25"
+                                    Margin="{StaticResource SmallRightMargin}"/>
+                </Grid>
+
+                <controls:AdaptiveGridView ItemsSource="{x:Bind ViewModel.Heroes}"
+                                           StretchContentForSingleRow="False"
+                                           IsItemClickEnabled="True"
+                                           SelectionMode="None"
+                                           ItemClickCommand="{x:Bind ViewModel.HeroSelectedCommand}"
+                                           DesiredWidth="225" ItemHeight="126.45"
+                                           animations:ItemsReorderAnimation.Duration="00:00:00.4000000"
+                                           Grid.Row="1">
+                    <controls:AdaptiveGridView.ItemTemplate>
+                        <DataTemplate x:DataType="corModels:HeroModel">
+                            <controls:ImageEx Source="{x:Bind help:DotaResourceHelper.GetHeroPortrait(Name)}"
+                                              Stretch="UniformToFill"
+                                              ToolTipService.ToolTip="{x:Bind LocalizedName}"/>
+                        </DataTemplate>
+                    </controls:AdaptiveGridView.ItemTemplate>
+                    <controls:AdaptiveGridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="5"/>
+                        </Style>
+                    </controls:AdaptiveGridView.ItemContainerStyle>
+
+                </controls:AdaptiveGridView>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,0 +1,135 @@
+﻿<UserControl
+    x:Class="DotaPlus.Controls.TeamStats"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:m="using:DotaPlus.Models"
+    xmlns:help="using:DotaPlus.Helpers" xmlns:internal="using:DotaPlus.Core.Models.Internal"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <x:Boolean x:Key="True">True</x:Boolean>
+        <x:Boolean x:Key="False">False</x:Boolean>
+    </UserControl.Resources>
+
+    <Grid>
+        <controls:DataGrid ItemsSource="{x:Bind Players, Mode=OneWay}"
+                           CanUserReorderColumns="False"
+                           CanUserResizeColumns="False"
+                           CanUserSortColumns="False"
+                           IsReadOnly="True"
+                           AutoGenerateColumns="False"
+                           GridLinesVisibility="Horizontal"
+                           SelectionMode="Single">
+            <controls:DataGrid.Columns>
+
+                <!--Image-->
+                <controls:DataGridTemplateColumn Header="Hero">
+                    <controls:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="m:PlayerModel">
+                            <controls:ImageEx Source="{x:Bind help:DotaResourceHelper.GetHeroPortriat(HeroId)}"
+                                              Stretch="Uniform"
+                                              Height="86" Width="144"/>
+                        </DataTemplate>
+                    </controls:DataGridTemplateColumn.CellTemplate>
+                </controls:DataGridTemplateColumn>
+
+                <!--Steam Name + Avatar-->
+                <controls:DataGridTemplateColumn Header="Name" Width="*">
+                    <controls:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="m:PlayerModel">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <controls:SwitchPresenter Value="{x:Bind IsPublic, Mode=OneWay}">
+                                    <controls:Case Value="{StaticResource True}">
+                                        <HyperlinkButton Content="{x:Bind Name}"
+                                                         NavigateUri="{x:Bind ProfileUri}"/>
+                                    </controls:Case>
+                                    <controls:Case Value="{StaticResource False}">
+                                        <TextBlock Text="{x:Bind Name}" 
+                                                   HorizontalAlignment="Left"
+                                                   Margin="{StaticResource SmallLeftMargin}"
+                                                   TextWrapping="Wrap"
+                                                   VerticalAlignment="Center"/>
+                                    </controls:Case>
+                                </controls:SwitchPresenter>
+
+                                <controls:ImageEx Source="{x:Bind Image}"
+                                                  HorizontalAlignment="Right"
+                                                  Stretch="Uniform"
+                                                  Height="50" Width="50"
+                                                  Margin="20 0"
+                                                  Grid.Column="1"/>
+                            </Grid>
+                        </DataTemplate>
+                    </controls:DataGridTemplateColumn.CellTemplate>
+                </controls:DataGridTemplateColumn>
+
+
+                <controls:DataGridTextColumn Binding="{Binding Kills}" Header="K"/>
+                <controls:DataGridTextColumn Binding="{Binding Deaths}" Header="D"/>
+                <controls:DataGridTextColumn Binding="{Binding Assists}" Header="A"/>
+                <controls:DataGridTextColumn Binding="{Binding NetworthString}" Header="Net"/>
+
+                <!--Last Hits/ Denies-->
+                <controls:DataGridTemplateColumn Header="LH/DN">
+                    <controls:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="m:PlayerModel">
+                            <TextBlock VerticalAlignment="Center" Margin="{StaticResource SmallLeftMargin}">
+                                <Run Text="{x:Bind LastHits}"/>
+                                <Run Text="/"/>
+                                <Run Text="{x:Bind Denies}"/>
+                            </TextBlock>
+                        </DataTemplate>
+                    </controls:DataGridTemplateColumn.CellTemplate>
+                </controls:DataGridTemplateColumn>
+
+                <!--GPM/XPM-->
+                <controls:DataGridTemplateColumn Header="GPM/XPM">
+                    <controls:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="m:PlayerModel">
+                            <TextBlock VerticalAlignment="Center" Margin="{StaticResource SmallLeftMargin}">
+                                                        <Run Text="{x:Bind Gpm}"/>
+                                                        <Run Text="/"/>
+                                                        <Run Text="{x:Bind Xpm}"/>
+                            </TextBlock>
+                        </DataTemplate>
+                    </controls:DataGridTemplateColumn.CellTemplate>
+                </controls:DataGridTemplateColumn>
+
+                <controls:DataGridTextColumn Binding="{Binding HeroDamageString}" Header="DMG"/>
+                <controls:DataGridTextColumn Binding="{Binding HealingString}" Header="Heal"/>
+                <controls:DataGridTextColumn Binding="{Binding BuildingDamageString}" Header="BLD"/>
+
+                <controls:DataGridTemplateColumn Header="Items">
+                    <controls:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="m:PlayerModel">
+                            <Grid>
+                                <ItemsRepeater ItemsSource="{x:Bind Items}">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="internal:ItemModel">
+                                            <controls:ImageEx Source="{x:Bind help:DotaResourceHelper.GetItemImage((internal:ItemModel))}"
+                                                              Height="50" Width="75"
+                                                              Stretch="Uniform"
+                                                              ToolTipService.ToolTip="{x:Bind DisplayName}"/>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                    <ItemsRepeater.Layout>
+                                        <StackLayout Orientation="Horizontal"/>
+                                    </ItemsRepeater.Layout>
+                                </ItemsRepeater>
+                            </Grid>
+                        </DataTemplate>
+                    </controls:DataGridTemplateColumn.CellTemplate>
+                </controls:DataGridTemplateColumn>
+
+            </controls:DataGrid.Columns>
+
+        </controls:DataGrid>
+    </Grid>
+</UserControl>

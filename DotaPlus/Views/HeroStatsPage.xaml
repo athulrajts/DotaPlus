@@ -1,0 +1,212 @@
+﻿<Page
+    x:Class="DotaPlus.Views.HeroStatsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:help="using:DotaPlus.Helpers"
+    xmlns:viewmodels="using:DotaPlus.ViewModels"
+    xmlns:odh="using:OpenDotaApi.Api.HeroStats.Model"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <Style TargetType="TextBlock" x:Key="VerticalCenter">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="{StaticResource SmallLeftRightMargin}"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="VerticalHorzontalCenter">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="{StaticResource SmallLeftRightMargin}"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <controls:DataGrid AutoGenerateColumns="False"
+                                   ItemsSource="{x:Bind ViewModel.Stats, Mode=OneWay}"
+                                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                   CanUserSortColumns="True"
+                                   ColumnHeaderHeight="32"
+                                   FrozenColumnCount="1"
+                                   GridLinesVisibility="All"
+                                   HeadersVisibility="Column"
+                                   IsReadOnly="True"
+                                   RowDetailsVisibilityMode="Collapsed"
+                                   SelectionMode="Single"
+                                   Sorting="DataGrid_Sorting"
+                                   RowGroupHeaderPropertyNameAlternative="Range">
+                    <controls:DataGrid.Columns>
+
+                        <controls:DataGridTemplateColumn Header="Hero" Width="*">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="odh:HeroStats">
+                                    <StackPanel Orientation="Horizontal">
+                                        <controls:ImageEx Source="{x:Bind help:DotaResourceHelper.GetHeroPortrait(Name)}"
+                                                          Stretch="UniformToFill"
+                                                          Height="86" Width="144"/>
+                                        <TextBlock Text="{x:Bind LocalizedName}" Style="{StaticResource VerticalCenter}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                        <controls:DataGridTextColumn Binding="{Binding ProPick}" Header="Pick" Width="100" Tag="ProPick"/>
+                        <controls:DataGridTextColumn Binding="{Binding ProBan}" Header="Ban" Width="100" Tag="ProBan"/>
+                        <controls:DataGridTemplateColumn Header="%" Width="100" Tag="ProWinrate">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind ProWinrate.ToString('0.##', x:Null)}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Herald%" Tag="HeraldPicks">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind HeraldPicks}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Herald%" Width="100" Tag="HeraldWinrate">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind HeraldWinrate.ToString('0.##', x:Null)}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Herald%" Width="100" Tag="GuardianPicks">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind GuardianPicks}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Guardian%" Width="100" Tag="GuardianWinrate">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind GuardianWinrate.ToString('0.##', x:Null)}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Herald%" Width="100" Tag="CrusaderPicks">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind CrusaderPicks}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Crusader%" Width="100" Tag="CrusaderWinrate">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind CrusaderWinrate.ToString('0.##', x:Null)}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Herald%" Width="100" Tag="ArchonPicks">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind ArchonPicks}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Archon%" Width="100" Tag="ArchonWinrate">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind ArchonWinrate.ToString('0.##', x:Null)}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Herald%" Width="100" Tag="LegendPicks">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind LegendPicks}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Legend%" Width="100" Tag="LegendWinrate">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind LegendWinrate.ToString('0.##', x:Null)}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Herald%" Width="100" Tag="AncientPicks">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind AncientPicks}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Ancient%" Width="100" Tag="AncientWinrate">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind AncientWinrate.ToString('0.##', x:Null)}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Herald%" Width="100" Tag="DivinePicks">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind DivinePicks}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Divine%" Width="100" Tag="DivineWinrate">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind DivineWinrate.ToString('0.##', x:Null)}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Herald%" Width="100" Tag="ImmortalPicks">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind ImmortalPicks}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <controls:DataGridTemplateColumn Header="Immortal%" Width="100" Tag="ImmortalWinrate">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="viewmodels:HeroStatsModel">
+                                    <TextBlock Text="{x:Bind ImmortalWinrate.ToString('0.##', x:Null)}"
+                                               Style="{StaticResource VerticalHorzontalCenter}"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                    </controls:DataGrid.Columns>
+                </controls:DataGrid>
+    </Grid>
+</Page>

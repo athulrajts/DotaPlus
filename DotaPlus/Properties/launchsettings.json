@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "DotaPlus (Unpackaged)": {
+        "commandName": "Project"
+      },
+      "DotaPlus (Package)": {
+        "commandName": "MsixPackage"
+      }
+    }
+}
